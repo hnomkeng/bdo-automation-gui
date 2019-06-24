@@ -39,6 +39,7 @@ namespace BDO_GUI
         private void OnTargetSelected(EventArgs e)
         {
             TargetSelected?.Invoke(this, e);
+            TargetSelected = null;
         }
 
         private void CloseForms()
