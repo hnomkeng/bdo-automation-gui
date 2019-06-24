@@ -64,7 +64,7 @@ namespace BDO_GUI
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
                     Helpers.User32.SetForegroundWindow(intPtr);
-                    Thread.Sleep(50);
+                    Thread.Sleep(100);
                     g.CopyFromScreen(left, top, 0, 0, bmp.Size);
                 }
                 _forms[i] = new TargetLocation(bmp, left, top, hRes, vRes);

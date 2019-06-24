@@ -53,28 +53,6 @@ namespace BDO_GUI
             }
         }
 
-        public static void Select(IntPtr intPtr)
-        {
-            List<DeviceInfo> screens = ScreenHelper.GetMonitorsInfo();
-            _forms = new SnippingTool[screens.Count];
-            for (int i = 0; i < screens.Count; i++)
-            {
-                int hRes = screens[i].HorizontalResolution;
-                int vRes = screens[i].VerticalResolution;
-                int top = screens[i].MonitorArea.Top;
-                int left = screens[i].MonitorArea.Left;
-                Bitmap bmp = new Bitmap(hRes, vRes, PixelFormat.Format32bppPArgb);
-                using (Graphics g = Graphics.FromImage(bmp))
-                {
-                    Helpers.User32.SetForegroundWindow(intPtr);
-                    Thread.Sleep(50);
-                    g.CopyFromScreen(left, top, 0, 0, bmp.Size);
-                }
-                _forms[i] = new SnippingTool(bmp, left, top, hRes, vRes);
-                _forms[i].Show();
-            }
-        }
-
         #region Overrides
         public static void Snip(IntPtr intPtr)
         {
