@@ -32,6 +32,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -53,6 +63,7 @@
     <Reference Include="UIAutomationTypes" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\ConfigFactory.cs" />
     <Compile Include="CalibrationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,12 +81,16 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Adapters\CalibrationAdapter.cs" />
+    <Compile Include="Models\Interfaces\IInternalConfig.cs" />
+    <Compile Include="Models\InternalConfig.cs" />
+    <Compile Include="Models\Interfaces\IExternalProcessRoutine.cs" />
+    <Compile Include="Models\Interfaces\IExternalConfig.cs" />
     <Compile Include="Models\Interfaces\IInternalCalibrationSetup.cs" />
     <Compile Include="Models\InternalCalibrationSetup.cs" />
-    <Compile Include="Models\Config.cs" />
+    <Compile Include="Models\ExternalConfig.cs" />
     <Compile Include="Models\ExternalCalibrationSetup.cs" />
     <Compile Include="Models\Interfaces\IExternalCalibrationSetup.cs" />
-    <Compile Include="Models\ProcessRoutine.cs" />
+    <Compile Include="Models\ExternalProcessRoutine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DataService.cs" />
@@ -110,6 +125,7 @@
       <DependentUpon>TargetLocation.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

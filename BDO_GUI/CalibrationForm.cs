@@ -3,10 +3,9 @@ using BDO_GUI.Adapters;
 using BDO_GUI.Models.Interfaces;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using BDO_GUI.Services;
 
 namespace BDO_GUI
 {
@@ -16,23 +15,17 @@ namespace BDO_GUI
         public static CalibrationForm Instance => lazy.Value;
 
         private InternalCalibrationSetup _calibrationSetup = new InternalCalibrationSetup();
-        private string _fileFullPath;
 
         private CalibrationForm()
         {
             InitializeComponent();
         }
 
-        public void Construct(string fileFullPath, IntPtr targetIntPtr)
+        public void Construct(IntPtr targetIntPtr)
         {
-            _fileFullPath = fileFullPath;
-            using (StreamReader r = new StreamReader(_fileFullPath))
-            {
-                string json = r.ReadToEnd();
-                IExternalCalibrationSetup config = JsonConvert.DeserializeObject<ExternalCalibrationSetup>(json);
-                _calibrationSetup = CalibrationAdapter.ConvertToInternalCalibrationSetup(config);
-                _calibrationSetup.SetIntPtr(targetIntPtr, Handle);
-            }
+            IExternalCalibrationSetup calibrationSetup = DataService.GetExternalCalibrationSetup();
+            _calibrationSetup = CalibrationAdapter.ConvertToInternalCalibrationSetup(calibrationSetup);
+            _calibrationSetup.SetIntPtr(targetIntPtr, Handle);
         }
 
         #region Worker Setup
@@ -122,9 +115,8 @@ namespace BDO_GUI
 
         private void btnSaveCalibration_Click(object sender, EventArgs e)
         {
-            ExternalCalibrationSetup config = CalibrationAdapter.ConvertToExternalCalibrationSetup(_calibrationSetup);
-            string json = JsonConvert.SerializeObject(config);
-            File.WriteAllText(_fileFullPath, json);
+            IExternalCalibrationSetup config = CalibrationAdapter.ConvertToExternalCalibrationSetup(_calibrationSetup);
+            DataService.SaveCalibrationSetup(config);
             Hide();
             MainForm.Instance.Show();
         }

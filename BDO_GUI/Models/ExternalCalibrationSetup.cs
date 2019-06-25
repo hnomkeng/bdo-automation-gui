@@ -47,6 +47,12 @@ namespace BDO_GUI.Models
 
         [JsonProperty("start_btn")]
         public IList<int> StartBtn { get; set; }
+
+        [JsonProperty("disconnect_btn")]
+        public IList<int> DisconnectBtn { get; set; }
+
+        [JsonProperty("tray_btn")]
+        public IList<int> TrayBtn { get; set; }
     }
 
     public class CalibrationScreenZone

@@ -278,7 +278,7 @@
             // 
             this.btnSaveCalibration.BackColor = System.Drawing.Color.Azure;
             this.btnSaveCalibration.Font = new System.Drawing.Font("Modern No. 20", 12F);
-            this.btnSaveCalibration.Location = new System.Drawing.Point(679, 309);
+            this.btnSaveCalibration.Location = new System.Drawing.Point(679, 261);
             this.btnSaveCalibration.Name = "btnSaveCalibration";
             this.btnSaveCalibration.Size = new System.Drawing.Size(154, 55);
             this.btnSaveCalibration.TabIndex = 6;
@@ -353,7 +353,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.AliceBlue;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(844, 376);
+            this.ClientSize = new System.Drawing.Size(844, 325);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnCloseApp);

@@ -35,24 +35,31 @@
             this.lblWorkerStatus = new System.Windows.Forms.Label();
             this.grpBoxWorker = new System.Windows.Forms.GroupBox();
             this.grpBoxProcessing = new System.Windows.Forms.GroupBox();
+            this.btnProcessingRemoveAllMat = new System.Windows.Forms.Button();
             this.lbxProcessingMaterials = new System.Windows.Forms.ListBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnProcessingRemoveMat = new System.Windows.Forms.Button();
+            this.chkTrayApplication = new System.Windows.Forms.CheckBox();
             this.btnProcessingAddMat = new System.Windows.Forms.Button();
+            this.btnToggleProcessing = new System.Windows.Forms.Button();
             this.lbxMaterials = new System.Windows.Forms.ListBox();
             this.chkProcessingVenecil = new System.Windows.Forms.CheckBox();
-            this.btnToggleProcessing = new System.Windows.Forms.Button();
             this.lblProcessingStatus = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnStart = new System.Windows.Forms.Button();
             this.timerRepeat = new System.Windows.Forms.Timer(this.components);
             this.label3 = new System.Windows.Forms.Label();
-            this.btnSaveData = new System.Windows.Forms.Button();
             this.lblTimer = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.btnCalibration = new System.Windows.Forms.Button();
+            this.txtTargetApplicationName = new System.Windows.Forms.TextBox();
+            this.lblTargetApplication = new System.Windows.Forms.Label();
+            this.lblRepeatTimer = new System.Windows.Forms.Label();
+            this.numRepeatTimer = new System.Windows.Forms.NumericUpDown();
             this.btnCloseApp = new BDO_GUI.CircularButton();
             this.grpBoxWorker.SuspendLayout();
             this.grpBoxProcessing.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numRepeatTimer)).BeginInit();
             this.SuspendLayout();
             // 
             // btnToggleWorker
@@ -79,6 +86,7 @@
             // lblWorkerStatus
             // 
             this.lblWorkerStatus.AutoSize = true;
+            this.lblWorkerStatus.BackColor = System.Drawing.Color.Transparent;
             this.lblWorkerStatus.Font = new System.Drawing.Font("Modern No. 20", 12F);
             this.lblWorkerStatus.Location = new System.Drawing.Point(91, 29);
             this.lblWorkerStatus.Name = "lblWorkerStatus";
@@ -94,7 +102,7 @@
             this.grpBoxWorker.Controls.Add(this.btnToggleWorker);
             this.grpBoxWorker.Controls.Add(this.lblWorkerStatus);
             this.grpBoxWorker.Font = new System.Drawing.Font("Modern No. 20", 14F);
-            this.grpBoxWorker.Location = new System.Drawing.Point(12, 46);
+            this.grpBoxWorker.Location = new System.Drawing.Point(12, 117);
             this.grpBoxWorker.Name = "grpBoxWorker";
             this.grpBoxWorker.Size = new System.Drawing.Size(277, 64);
             this.grpBoxWorker.TabIndex = 3;
@@ -105,8 +113,11 @@
             // 
             this.grpBoxProcessing.BackColor = System.Drawing.Color.White;
             this.grpBoxProcessing.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("grpBoxProcessing.BackgroundImage")));
+            this.grpBoxProcessing.Controls.Add(this.btnProcessingRemoveAllMat);
             this.grpBoxProcessing.Controls.Add(this.lbxProcessingMaterials);
+            this.grpBoxProcessing.Controls.Add(this.pictureBox1);
             this.grpBoxProcessing.Controls.Add(this.btnProcessingRemoveMat);
+            this.grpBoxProcessing.Controls.Add(this.chkTrayApplication);
             this.grpBoxProcessing.Controls.Add(this.btnProcessingAddMat);
             this.grpBoxProcessing.Controls.Add(this.btnToggleProcessing);
             this.grpBoxProcessing.Controls.Add(this.lbxMaterials);
@@ -116,10 +127,22 @@
             this.grpBoxProcessing.Font = new System.Drawing.Font("Modern No. 20", 14F);
             this.grpBoxProcessing.Location = new System.Drawing.Point(295, 46);
             this.grpBoxProcessing.Name = "grpBoxProcessing";
-            this.grpBoxProcessing.Size = new System.Drawing.Size(538, 317);
+            this.grpBoxProcessing.Size = new System.Drawing.Size(538, 368);
             this.grpBoxProcessing.TabIndex = 4;
             this.grpBoxProcessing.TabStop = false;
             this.grpBoxProcessing.Text = "Processing";
+            // 
+            // btnProcessingRemoveAllMat
+            // 
+            this.btnProcessingRemoveAllMat.BackColor = System.Drawing.Color.White;
+            this.btnProcessingRemoveAllMat.Font = new System.Drawing.Font("Monotype Corsiva", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnProcessingRemoveAllMat.Location = new System.Drawing.Point(217, 268);
+            this.btnProcessingRemoveAllMat.Name = "btnProcessingRemoveAllMat";
+            this.btnProcessingRemoveAllMat.Size = new System.Drawing.Size(103, 35);
+            this.btnProcessingRemoveAllMat.TabIndex = 19;
+            this.btnProcessingRemoveAllMat.Text = "Clear All";
+            this.btnProcessingRemoveAllMat.UseVisualStyleBackColor = false;
+            this.btnProcessingRemoveAllMat.Click += new System.EventHandler(this.btnProcessingRemoveAllMat_Click);
             // 
             // lbxProcessingMaterials
             // 
@@ -130,11 +153,21 @@
             this.lbxProcessingMaterials.Size = new System.Drawing.Size(192, 235);
             this.lbxProcessingMaterials.TabIndex = 18;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
+            this.pictureBox1.Location = new System.Drawing.Point(326, 320);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(109, 37);
+            this.pictureBox1.TabIndex = 15;
+            this.pictureBox1.TabStop = false;
+            // 
             // btnProcessingRemoveMat
             // 
             this.btnProcessingRemoveMat.BackColor = System.Drawing.Color.White;
             this.btnProcessingRemoveMat.Font = new System.Drawing.Font("Monotype Corsiva", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnProcessingRemoveMat.Location = new System.Drawing.Point(217, 193);
+            this.btnProcessingRemoveMat.Location = new System.Drawing.Point(217, 137);
             this.btnProcessingRemoveMat.Name = "btnProcessingRemoveMat";
             this.btnProcessingRemoveMat.Size = new System.Drawing.Size(103, 35);
             this.btnProcessingRemoveMat.TabIndex = 17;
@@ -142,17 +175,41 @@
             this.btnProcessingRemoveMat.UseVisualStyleBackColor = false;
             this.btnProcessingRemoveMat.Click += new System.EventHandler(this.btnProcessingRemoveMat_Click);
             // 
+            // chkTrayApplication
+            // 
+            this.chkTrayApplication.AutoSize = true;
+            this.chkTrayApplication.BackColor = System.Drawing.Color.Transparent;
+            this.chkTrayApplication.Font = new System.Drawing.Font("Modern No. 20", 14F);
+            this.chkTrayApplication.Location = new System.Drawing.Point(71, 327);
+            this.chkTrayApplication.Name = "chkTrayApplication";
+            this.chkTrayApplication.Size = new System.Drawing.Size(249, 25);
+            this.chkTrayApplication.TabIndex = 14;
+            this.chkTrayApplication.Text = "Hide Game After Processing";
+            this.chkTrayApplication.UseVisualStyleBackColor = false;
+            this.chkTrayApplication.CheckedChanged += new System.EventHandler(this.chkTrayApplication_CheckedChanged);
+            // 
             // btnProcessingAddMat
             // 
             this.btnProcessingAddMat.BackColor = System.Drawing.Color.White;
             this.btnProcessingAddMat.Font = new System.Drawing.Font("Monotype Corsiva", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnProcessingAddMat.Location = new System.Drawing.Point(217, 136);
+            this.btnProcessingAddMat.Location = new System.Drawing.Point(217, 80);
             this.btnProcessingAddMat.Name = "btnProcessingAddMat";
             this.btnProcessingAddMat.Size = new System.Drawing.Size(103, 35);
             this.btnProcessingAddMat.TabIndex = 16;
             this.btnProcessingAddMat.Text = "Add    >>";
             this.btnProcessingAddMat.UseVisualStyleBackColor = false;
             this.btnProcessingAddMat.Click += new System.EventHandler(this.btnProcessingAddMat_Click);
+            // 
+            // btnToggleProcessing
+            // 
+            this.btnToggleProcessing.BackColor = System.Drawing.Color.White;
+            this.btnToggleProcessing.Location = new System.Drawing.Point(164, 20);
+            this.btnToggleProcessing.Name = "btnToggleProcessing";
+            this.btnToggleProcessing.Size = new System.Drawing.Size(78, 33);
+            this.btnToggleProcessing.TabIndex = 4;
+            this.btnToggleProcessing.Text = "Toggle";
+            this.btnToggleProcessing.UseVisualStyleBackColor = false;
+            this.btnToggleProcessing.Click += new System.EventHandler(this.btnToggleProcessing_Click);
             // 
             // lbxMaterials
             // 
@@ -166,29 +223,20 @@
             // chkProcessingVenecil
             // 
             this.chkProcessingVenecil.AutoSize = true;
+            this.chkProcessingVenecil.BackColor = System.Drawing.Color.Transparent;
             this.chkProcessingVenecil.Font = new System.Drawing.Font("Modern No. 20", 12F);
             this.chkProcessingVenecil.Location = new System.Drawing.Point(351, 29);
             this.chkProcessingVenecil.Name = "chkProcessingVenecil";
             this.chkProcessingVenecil.Size = new System.Drawing.Size(161, 22);
             this.chkProcessingVenecil.TabIndex = 14;
             this.chkProcessingVenecil.Text = "Use Venecil Costume";
-            this.chkProcessingVenecil.UseVisualStyleBackColor = true;
+            this.chkProcessingVenecil.UseVisualStyleBackColor = false;
             this.chkProcessingVenecil.CheckedChanged += new System.EventHandler(this.chkProcessingVenecil_CheckedChanged);
-            // 
-            // btnToggleProcessing
-            // 
-            this.btnToggleProcessing.BackColor = System.Drawing.Color.White;
-            this.btnToggleProcessing.Location = new System.Drawing.Point(164, 20);
-            this.btnToggleProcessing.Name = "btnToggleProcessing";
-            this.btnToggleProcessing.Size = new System.Drawing.Size(78, 33);
-            this.btnToggleProcessing.TabIndex = 4;
-            this.btnToggleProcessing.Text = "Toggle";
-            this.btnToggleProcessing.UseVisualStyleBackColor = false;
-            this.btnToggleProcessing.Click += new System.EventHandler(this.btnToggleProcessing_Click);
             // 
             // lblProcessingStatus
             // 
             this.lblProcessingStatus.AutoSize = true;
+            this.lblProcessingStatus.BackColor = System.Drawing.Color.Transparent;
             this.lblProcessingStatus.Font = new System.Drawing.Font("Modern No. 20", 12F);
             this.lblProcessingStatus.Location = new System.Drawing.Point(103, 29);
             this.lblProcessingStatus.Name = "lblProcessingStatus";
@@ -208,12 +256,14 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(196, 308);
+            this.btnStart.BackColor = System.Drawing.Color.White;
+            this.btnStart.Font = new System.Drawing.Font("Modern No. 20", 14F);
+            this.btnStart.Location = new System.Drawing.Point(196, 357);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(93, 55);
             this.btnStart.TabIndex = 5;
             this.btnStart.Text = "Start";
-            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.UseVisualStyleBackColor = false;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // timerRepeat
@@ -233,46 +283,83 @@
             this.label3.TabIndex = 8;
             this.label3.Text = "BDO Configuration";
             // 
-            // btnSaveData
-            // 
-            this.btnSaveData.Location = new System.Drawing.Point(12, 308);
-            this.btnSaveData.Name = "btnSaveData";
-            this.btnSaveData.Size = new System.Drawing.Size(93, 55);
-            this.btnSaveData.TabIndex = 9;
-            this.btnSaveData.Text = "Save Data";
-            this.btnSaveData.UseVisualStyleBackColor = true;
-            this.btnSaveData.Click += new System.EventHandler(this.btnSaveData_Click);
-            // 
             // lblTimer
             // 
             this.lblTimer.AutoSize = true;
-            this.lblTimer.Location = new System.Drawing.Point(12, 150);
+            this.lblTimer.BackColor = System.Drawing.Color.Transparent;
+            this.lblTimer.Font = new System.Drawing.Font("Modern No. 20", 14F);
+            this.lblTimer.Location = new System.Drawing.Point(8, 382);
             this.lblTimer.Name = "lblTimer";
-            this.lblTimer.Size = new System.Drawing.Size(47, 13);
+            this.lblTimer.Size = new System.Drawing.Size(158, 21);
             this.lblTimer.TabIndex = 10;
-            this.lblTimer.Text = "Counter:";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(12, 247);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(106, 55);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "Test";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.lblTimer.Text = "Process Repeat In :";
             // 
             // btnCalibration
             // 
             this.btnCalibration.BackColor = System.Drawing.Color.White;
             this.btnCalibration.Font = new System.Drawing.Font("Modern No. 20", 14F);
-            this.btnCalibration.Location = new System.Drawing.Point(159, 116);
+            this.btnCalibration.Location = new System.Drawing.Point(156, 239);
             this.btnCalibration.Name = "btnCalibration";
             this.btnCalibration.Size = new System.Drawing.Size(130, 56);
             this.btnCalibration.TabIndex = 13;
             this.btnCalibration.Text = "Calibration";
             this.btnCalibration.UseVisualStyleBackColor = false;
             this.btnCalibration.Click += new System.EventHandler(this.btnCalibration_Click);
+            // 
+            // txtTargetApplicationName
+            // 
+            this.txtTargetApplicationName.Font = new System.Drawing.Font("Modern No. 20", 12F);
+            this.txtTargetApplicationName.Location = new System.Drawing.Point(129, 45);
+            this.txtTargetApplicationName.Name = "txtTargetApplicationName";
+            this.txtTargetApplicationName.Size = new System.Drawing.Size(160, 25);
+            this.txtTargetApplicationName.TabIndex = 16;
+            this.txtTargetApplicationName.TabStop = false;
+            this.txtTargetApplicationName.Text = "Black Desert";
+            // 
+            // lblTargetApplication
+            // 
+            this.lblTargetApplication.AutoSize = true;
+            this.lblTargetApplication.BackColor = System.Drawing.Color.Transparent;
+            this.lblTargetApplication.Font = new System.Drawing.Font("Modern No. 20", 14F);
+            this.lblTargetApplication.Location = new System.Drawing.Point(14, 46);
+            this.lblTargetApplication.Name = "lblTargetApplication";
+            this.lblTargetApplication.Size = new System.Drawing.Size(109, 21);
+            this.lblTargetApplication.TabIndex = 17;
+            this.lblTargetApplication.Text = "Target App. :";
+            // 
+            // lblRepeatTimer
+            // 
+            this.lblRepeatTimer.AutoSize = true;
+            this.lblRepeatTimer.BackColor = System.Drawing.Color.Transparent;
+            this.lblRepeatTimer.Font = new System.Drawing.Font("Modern No. 20", 12F);
+            this.lblRepeatTimer.Location = new System.Drawing.Point(15, 83);
+            this.lblRepeatTimer.Name = "lblRepeatTimer";
+            this.lblRepeatTimer.Size = new System.Drawing.Size(227, 18);
+            this.lblRepeatTimer.TabIndex = 19;
+            this.lblRepeatTimer.Text = "Repeat Task Timer (in minutes) :";
+            // 
+            // numRepeatTimer
+            // 
+            this.numRepeatTimer.Location = new System.Drawing.Point(248, 83);
+            this.numRepeatTimer.Maximum = new decimal(new int[] {
+            120,
+            0,
+            0,
+            0});
+            this.numRepeatTimer.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numRepeatTimer.Name = "numRepeatTimer";
+            this.numRepeatTimer.Size = new System.Drawing.Size(39, 20);
+            this.numRepeatTimer.TabIndex = 20;
+            this.numRepeatTimer.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            this.numRepeatTimer.ValueChanged += new System.EventHandler(this.numRepeatTimer_ValueChanged);
             // 
             // btnCloseApp
             // 
@@ -291,11 +378,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.AliceBlue;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(844, 376);
+            this.ClientSize = new System.Drawing.Size(844, 426);
+            this.Controls.Add(this.numRepeatTimer);
+            this.Controls.Add(this.lblRepeatTimer);
+            this.Controls.Add(this.lblTargetApplication);
+            this.Controls.Add(this.txtTargetApplicationName);
             this.Controls.Add(this.btnCalibration);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.lblTimer);
-            this.Controls.Add(this.btnSaveData);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnCloseApp);
             this.Controls.Add(this.btnStart);
@@ -309,6 +398,8 @@
             this.grpBoxWorker.PerformLayout();
             this.grpBoxProcessing.ResumeLayout(false);
             this.grpBoxProcessing.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numRepeatTimer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -333,10 +424,15 @@
         private System.Windows.Forms.Button btnProcessingRemoveMat;
         private System.Windows.Forms.Button btnProcessingAddMat;
         private System.Windows.Forms.ListBox lbxMaterials;
-        private System.Windows.Forms.Button btnSaveData;
         private System.Windows.Forms.Label lblTimer;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnCalibration;
+        private System.Windows.Forms.CheckBox chkTrayApplication;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnProcessingRemoveAllMat;
+        private System.Windows.Forms.TextBox txtTargetApplicationName;
+        private System.Windows.Forms.Label lblTargetApplication;
+        private System.Windows.Forms.Label lblRepeatTimer;
+        private System.Windows.Forms.NumericUpDown numRepeatTimer;
     }
 }
 

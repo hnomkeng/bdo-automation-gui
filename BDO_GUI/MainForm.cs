@@ -1,10 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using BDO_GUI.Factories;
+using BDO_GUI.Models.Interfaces;
+using BDO_GUI.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Windows.Automation;
 using System.Windows.Forms;
 
 namespace BDO_GUI
@@ -14,29 +13,43 @@ namespace BDO_GUI
         private static readonly Lazy<MainForm> lazy = new Lazy<MainForm>(() => new MainForm());
         public static MainForm Instance => lazy.Value;
 
+        private IInternalConfig _config;
         private Process _pythonProcess;
-        private IntPtr _gameIntPtr;
-        private string _gameTitle;
-        private Config _config;
-        private ProcessRoutine _processRoutine;
-        private string _pythonDir;
-        private int _timerCounter = 900;
+        private int _timerCounter;
 
         private MainForm()
         {
             InitializeComponent();
 
-            Tuple<IntPtr, string> applicationTuple = Helpers.FindApplication("black desert");
-            _gameIntPtr = applicationTuple.Item1;
-            _gameTitle = applicationTuple.Item2;
+            IExternalConfig extConfig = DataService.GetExternalConfig();
+            IExternalProcessRoutine processRoutine = DataService.GetExternalProcessRoutine();
+            _config = ConfigFactory.GetConfig(txtTargetApplicationName.Text, (int)numRepeatTimer.Value, extConfig, processRoutine);
 
-            LoadData();
+            lblWorkerStatus.Text = _config.Worker.IsActive ? "On" : "Off";
+            lblProcessingStatus.Text = _config.Processing.IsActive ? "On" : "Off";
+            chkProcessingVenecil.Checked = _config.Processing.UseVenecil;
+            chkProcessingVenecil.CheckState = _config.Processing.UseVenecil ? CheckState.Checked : CheckState.Unchecked;
+            chkTrayApplication.Checked = _config.Tray.IsActive;
+            chkTrayApplication.CheckState = _config.Tray.IsActive ? CheckState.Checked : CheckState.Unchecked;
+
+            // Load List Materials
+            IList<string> listAvailableMats = DataService.GetListAvailableMaterials();
+            foreach (string mat in listAvailableMats)
+            {
+                lbxMaterials.Items.Add(mat);
+            }
+
+            _config.Processing.Items.CollectionChanged += (s, e) =>
+            {
+                SetLbxProcessingMaterials();
+            };
+            SetLbxProcessingMaterials();
 
             ProcessStartInfo processStartInfo = new ProcessStartInfo()
             {
                 FileName = "python.exe",
                 Verb = "runas",
-                WorkingDirectory = _pythonDir,
+                WorkingDirectory = Helpers.GetWorkingDirectory(),
                 Arguments = "BDO_auto_main.py",
             };
 
@@ -47,85 +60,36 @@ namespace BDO_GUI
             };
         }
 
-        private void LoadData()
+        private void SetLbxProcessingMaterials()
         {
-            _pythonDir = "C:/Users/Duc Truong/Downloads/bdo/";
-            if (!Directory.Exists(_pythonDir))
+            foreach (string mat in _config.Processing.Items)
             {
-                _pythonDir = Directory.GetCurrentDirectory();
+                lbxProcessingMaterials.Items.Add(mat);
             }
-
-            string configFile = _pythonDir + ".config/config.json";
-
-            using (StreamReader r = new StreamReader(configFile))
-            {
-                string json = r.ReadToEnd();
-                _config = JsonConvert.DeserializeObject<Config>(json);
-            }
-
-            string processRoutineFile = _pythonDir + _config.Setting.TaskDir.Replace("./", string.Empty) + _config.TaskFile;
-            using (StreamReader r = new StreamReader(processRoutineFile))
-            {
-                string json = r.ReadToEnd();
-                _processRoutine = JsonConvert.DeserializeObject<ProcessRoutine>(json);
-            }
-
-            LoadListMats();
-            
-            lblWorkerStatus.Text = _config.FeedWorker ? "On" : "Off";
-            lblProcessingStatus.Text = _config.ReloadProcess ? "On" : "Off";
-            chkProcessingVenecil.Checked = _processRoutine.Venecil;
-            chkProcessingVenecil.CheckState = _processRoutine.Venecil ? CheckState.Checked : CheckState.Unchecked;
-        }
-
-        private void LoadListMats()
-        {
-            string matImagePath = _pythonDir + "BDO_images/materials/";
-            if (!Directory.Exists(matImagePath))
-            {
-                return;
-            }
-
-            string[] fileNames = Directory.GetFiles(matImagePath);
-            foreach (string filename in fileNames)
-            {
-                string name = filename.Replace(matImagePath, string.Empty).Replace(".png", string.Empty).Replace("_", " ");
-                name = char.ToUpper(name[0]) + name.Substring(1);
-                lbxMaterials.Items.Add(name);
-            }
-
-            foreach (IList<string> x in _processRoutine.Items)
-            {
-                string name = x.First().Replace("_highlighted", string.Empty).Replace("_", " ");
-                name = char.ToUpper(name[0]) + name.Substring(1);
-                lbxProcessingMaterials.Items.Add(name);
-            };
         }
 
         private void btnToggleWorker_Click(object sender, EventArgs e)
         {
-            _config.FeedWorker = !_config.FeedWorker;
-            if (_config.FeedWorker)
+            _config.Worker.IsActive = !_config.Worker.IsActive;
+            if (_config.Worker.IsActive)
             {
                 lblWorkerStatus.Text = "On";
+                return;
             }
-            else
-            {
-                lblWorkerStatus.Text = "Off";
-            }
+
+            lblWorkerStatus.Text = "Off";
         }
 
         private void btnToggleProcessing_Click(object sender, EventArgs e)
         {
-            _config.ReloadProcess = !_config.ReloadProcess;
-            if (_config.ReloadProcess)
+            _config.Processing.IsActive = !_config.Processing.IsActive;
+            if (_config.Processing.IsActive)
             {
                 lblProcessingStatus.Text = "On";
+                return;
             }
-            else
-            {
-                lblProcessingStatus.Text = "Off";
-            }
+
+            lblProcessingStatus.Text = "Off";
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -135,6 +99,7 @@ namespace BDO_GUI
                 btnStart.Text = "Start";
                 timerRepeat.Stop();
 
+                _timerCounter = _config.RepeatTimer;
                 if (!_pythonProcess.HasExited)
                 {
                     _pythonProcess.Kill();
@@ -143,14 +108,9 @@ namespace BDO_GUI
                 return;
             }
 
+            SaveData();
             btnStart.Text = "Stop";
             timerRepeat.Start();
-            _pythonProcess.Start();
-            _pythonProcess.Exited += (s, ev) =>
-            {
-                btnStart.Text = "Start";
-            };
-            _pythonProcess.SynchronizingObject = btnStart;
         }
 
         private void btnCloseApp_Click(object sender, EventArgs e)
@@ -160,7 +120,7 @@ namespace BDO_GUI
 
         private void chkProcessingVenecil_CheckedChanged(object sender, EventArgs e)
         {
-            _processRoutine.Venecil = chkProcessingVenecil.Checked;
+            _config.Processing.UseVenecil = chkProcessingVenecil.Checked;
         }
 
         private void btnProcessingAddMat_Click(object sender, EventArgs e)
@@ -170,7 +130,7 @@ namespace BDO_GUI
                 return;
             }
 
-            lbxProcessingMaterials.Items.Add(lbxMaterials.SelectedItem);
+            _config.Processing.Items.Add((string)lbxMaterials.SelectedItem);
         }
 
         private void btnProcessingRemoveMat_Click(object sender, EventArgs e)
@@ -180,29 +140,19 @@ namespace BDO_GUI
                 return;
             }
 
-            lbxProcessingMaterials.Items.RemoveAt(lbxProcessingMaterials.SelectedIndex);
+
+            _config.Processing.Items.Remove((string)lbxProcessingMaterials.SelectedItem);
         }
 
-        private void btnSaveData_Click(object sender, EventArgs e)
+        private void btnProcessingRemoveAllMat_Click(object sender, EventArgs e)
         {
-            _config.Setting.WindowName = _gameTitle;
-            string configJson = JsonConvert.SerializeObject(_config);
-            File.WriteAllText(_pythonDir + ".config/config.json", configJson);
+            _config.Processing.Items.Clear();
+        }
 
-            IList<IList<string>> list = new List<IList<string>>();
-            for (int a = 0; a < lbxProcessingMaterials.Items.Count; a++)
-            {
-                string name = lbxProcessingMaterials.Items[a].ToString();
-                name = name.Replace(" ", "_").ToLower();
-                name += "_highlighted";
-                list.Add(new List<string>
-                {
-                    name
-                });
-            }
-            _processRoutine.Items = list;
-            string processRoutineJson = JsonConvert.SerializeObject(_processRoutine);
-            File.WriteAllText(_pythonDir + _config.Setting.TaskDir.Replace("./", string.Empty) + _config.TaskFile, processRoutineJson);
+        private void SaveData()
+        {
+            Tuple<IExternalConfig, IExternalProcessRoutine> extConfigs = ConfigFactory.GetExternalConfigs(txtTargetApplicationName.Text, _config);
+            DataService.SaveExternalConfigs(extConfigs.Item1, extConfigs.Item2);
         }
 
         private void timerRepeat_Tick(object sender, EventArgs e)
@@ -210,64 +160,58 @@ namespace BDO_GUI
             _timerCounter--;
             lblTimer.Text = "Counter: " + _timerCounter;
 
-            if (_timerCounter >= 0)
+            if (_timerCounter > 0)
             {
                 return;
             }
 
-            _timerCounter = 900;
+            if (_config.Tray.IsActive && Helpers.FindApplication(txtTargetApplicationName.Text).Item1 == IntPtr.Zero)
+            {
+                BringUpApplicationFromtray();
+            }
+
+            _timerCounter = _config.RepeatTimer;
             _pythonProcess.Start();
             _pythonProcess.Exited += (s, ev) =>
             {
-                btnStart.Text = "Start";
+                if (!timerRepeat.Enabled)
+                {
+                    btnStart.Text = "Start";
+                }
+
+                if (_pythonProcess.ExitCode != 0)
+                {
+                    timerRepeat.Stop();
+                    _timerCounter = 0;
+                    btnStart.Text = "Start";
+                }
+
+                Helpers.User32.SetForegroundWindow(Handle);
             };
             _pythonProcess.SynchronizingObject = btnStart;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void BringUpApplicationFromtray()
         {
-            IEnumerable<AutomationElement> icons = EnumNotificationIcons();
-            foreach (AutomationElement icon in icons)
-            {
-                string name = icon.GetCurrentPropertyValue(AutomationElement.NameProperty) as string;
-                if (name.StartsWith("Black Desert"))
-                {
-                    icon.InvokeButton();
-                    break;
-                }
-            }
-        }
-
-        public static IEnumerable<AutomationElement> EnumNotificationIcons()
-        {
-            foreach (AutomationElement button in AutomationElement.RootElement.Find(
-                            "User Promoted Notification Area").EnumChildButtons())
-            {
-                yield return button;
-            }
-
-            foreach (AutomationElement button in AutomationElement.RootElement.Find(
-                          "System Promoted Notification Area").EnumChildButtons())
-            {
-                yield return button;
-            }
-
-            AutomationElement chevron = AutomationElement.RootElement.Find("Notification Chevron");
-            if (chevron != null && chevron.InvokeButton())
-            {
-                foreach (AutomationElement button in AutomationElement.RootElement.Find(
-                                   "Overflow Notification Area").EnumChildButtons())
-                {
-                    yield return button;
-                }
-            }
+            Func<string, bool> myFunc = name => name.StartsWith(txtTargetApplicationName.Text);
+            AutomationElementHelpers.InvokeButtonByName(myFunc);
         }
 
         private void btnCalibration_Click(object sender, EventArgs e)
         {
             Hide();
-            CalibrationForm.Instance.Construct(_pythonDir + _config.Setting.Calibration, _gameIntPtr);
+            CalibrationForm.Instance.Construct(Helpers.FindApplication(txtTargetApplicationName.Text).Item1);
             CalibrationForm.Instance.Show();
+        }
+
+        private void chkTrayApplication_CheckedChanged(object sender, EventArgs e)
+        {
+            _config.Tray.IsActive = chkTrayApplication.Checked;
+        }
+
+        private void numRepeatTimer_ValueChanged(object sender, EventArgs e)
+        {
+            _config.RepeatTimer = (int)((NumericUpDown)sender).Value * 60;
         }
     }
 }
