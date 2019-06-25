@@ -1,16 +1,25 @@
-﻿using System;
+﻿using BDO_GUI.Models.Interfaces;
+using System;
 using System.Drawing;
 
 namespace BDO_GUI.Models
 {
-    public class CalibrationSetup
+    public class InternalCalibrationSetup : IInternalCalibrationSetup
     {
-        public void Construct(IntPtr targetProcess, IntPtr mainProcess)
+        public InternalCalibrationSetup()
         {
-            Worker = new WorkerCalibrationSetup(targetProcess, mainProcess);
-            Processing = new ProcessingCalibrationSetup(targetProcess, mainProcess);
-            Area = new AreaCalibrationSetup(targetProcess, mainProcess);
-            Tray = new TrayCalibrationSetup(targetProcess, mainProcess);
+            Worker = new WorkerCalibrationSetup();
+            Processing = new ProcessingCalibrationSetup();
+            Area = new AreaCalibrationSetup();
+            Tray = new TrayCalibrationSetup();
+        }
+
+        public void SetIntPtr(IntPtr targetProcess, IntPtr mainProcess)
+        {
+            Worker.SetIntPtr(targetProcess, mainProcess);
+            Processing.SetIntPtr(targetProcess, mainProcess);
+            Area.SetIntPtr(targetProcess, mainProcess);
+            Tray.SetIntPtr(targetProcess, mainProcess);
         }
 
         public WorkerCalibrationSetup Worker { get; private set; }
@@ -21,9 +30,9 @@ namespace BDO_GUI.Models
 
     public class AreaCalibrationSetup
     {
-        private readonly IntPtr _targetApplication;
-        private readonly IntPtr _mainApplication;
-        public AreaCalibrationSetup(IntPtr targetProcess, IntPtr mainProcess)
+        private IntPtr _targetApplication;
+        private IntPtr _mainApplication;
+        public void SetIntPtr(IntPtr targetProcess, IntPtr mainProcess)
         {
             _targetApplication = targetProcess;
             _mainApplication = mainProcess;
@@ -76,9 +85,9 @@ namespace BDO_GUI.Models
 
     public class ProcessingCalibrationSetup
     {
-        private readonly IntPtr _targetApplication;
-        private readonly IntPtr _mainApplication;
-        public ProcessingCalibrationSetup(IntPtr targetProcess, IntPtr mainProcess)
+        private IntPtr _targetApplication;
+        private IntPtr _mainApplication;
+        public void SetIntPtr(IntPtr targetProcess, IntPtr mainProcess)
         {
             _targetApplication = targetProcess;
             _mainApplication = mainProcess;
@@ -146,9 +155,9 @@ namespace BDO_GUI.Models
 
     public class WorkerCalibrationSetup
     {
-        private readonly IntPtr _targetApplication;
-        private readonly IntPtr _mainApplication;
-        public WorkerCalibrationSetup(IntPtr targetProcess, IntPtr mainProcess)
+        private IntPtr _targetApplication;
+        private IntPtr _mainApplication;
+        public void SetIntPtr(IntPtr targetProcess, IntPtr mainProcess)
         {
             _targetApplication = targetProcess;
             _mainApplication = mainProcess;
@@ -215,9 +224,9 @@ namespace BDO_GUI.Models
 
     public class TrayCalibrationSetup
     {
-        private readonly IntPtr _targetApplication;
-        private readonly IntPtr _mainApplication;
-        public TrayCalibrationSetup(IntPtr targetProcess, IntPtr mainProcess)
+        private IntPtr _targetApplication;
+        private IntPtr _mainApplication;
+        public void SetIntPtr(IntPtr targetProcess, IntPtr mainProcess)
         {
             _targetApplication = targetProcess;
             _mainApplication = mainProcess;

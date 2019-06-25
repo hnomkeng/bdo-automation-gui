@@ -69,12 +69,16 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\CalibrationSetup.cs" />
+    <Compile Include="Adapters\CalibrationAdapter.cs" />
+    <Compile Include="Models\Interfaces\IInternalCalibrationSetup.cs" />
+    <Compile Include="Models\InternalCalibrationSetup.cs" />
     <Compile Include="Models\Config.cs" />
-    <Compile Include="Models\Interfaces\Calibration.cs" />
+    <Compile Include="Models\ExternalCalibrationSetup.cs" />
+    <Compile Include="Models\Interfaces\IExternalCalibrationSetup.cs" />
     <Compile Include="Models\ProcessRoutine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DataService.cs" />
     <Compile Include="SnippingTool.cs">
       <SubType>Form</SubType>
     </Compile>

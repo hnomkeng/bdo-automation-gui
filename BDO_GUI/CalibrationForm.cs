@@ -1,8 +1,10 @@
 ﻿using BDO_GUI.Models;
+using BDO_GUI.Adapters;
 using BDO_GUI.Models.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -13,7 +15,7 @@ namespace BDO_GUI
         private static readonly Lazy<CalibrationForm> lazy = new Lazy<CalibrationForm>(() => new CalibrationForm());
         public static CalibrationForm Instance => lazy.Value;
 
-        private CalibrationSetup _calibrationSetup = new CalibrationSetup();
+        private InternalCalibrationSetup _calibrationSetup = new InternalCalibrationSetup();
         private string _fileFullPath;
 
         private CalibrationForm()
@@ -24,16 +26,12 @@ namespace BDO_GUI
         public void Construct(string fileFullPath, IntPtr targetIntPtr)
         {
             _fileFullPath = fileFullPath;
-            _calibrationSetup.Construct(targetIntPtr, Handle);
-            LoadData();
-        }
-
-        private void LoadData()
-        {
             using (StreamReader r = new StreamReader(_fileFullPath))
             {
                 string json = r.ReadToEnd();
-                Calibration config = JsonConvert.DeserializeObject<Calibration>(json);
+                IExternalCalibrationSetup config = JsonConvert.DeserializeObject<ExternalCalibrationSetup>(json);
+                _calibrationSetup = CalibrationAdapter.ConvertToInternalCalibrationSetup(config);
+                _calibrationSetup.SetIntPtr(targetIntPtr, Handle);
             }
         }
 
@@ -124,29 +122,7 @@ namespace BDO_GUI
 
         private void btnSaveCalibration_Click(object sender, EventArgs e)
         {
-            Calibration config = new Calibration
-            {
-                CalibrationLandMarks = new CalibrationLandMark
-                {
-                    BeerIcon = new List<int> { _calibrationSetup.Worker.BeerIcon.X , _calibrationSetup.Worker.BeerIcon.Y },
-                    RecoverAllBtn = new List<int> { _calibrationSetup.Worker.RecoverBtn.X, _calibrationSetup.Worker.RecoverBtn.Y },
-                    RepeatAllBtn = new List<int> { _calibrationSetup.Worker.RepeatWorkBtn.X, _calibrationSetup.Worker.RepeatWorkBtn.Y },
-                    ConfirmBtn = new List<int> { _calibrationSetup.Worker.ConfirmBtn.X, _calibrationSetup.Worker.ConfirmBtn.Y },
-                    WorkerIcon = new List<int> { _calibrationSetup.Worker.MainIcon.X, _calibrationSetup.Worker.MainIcon.Y },
-                    StorageBtn = new List<int> { _calibrationSetup.Processing.StorageBtn.X, _calibrationSetup.Processing.StorageBtn.Y },
-                    ChoppingIcon = new List<int> { _calibrationSetup.Processing.ChoppingIcon.X, _calibrationSetup.Processing.ChoppingIcon.Y },
-                    HeatingIcon = new List<int> { _calibrationSetup.Processing.HeatingIcon.X, _calibrationSetup.Processing.HeatingIcon.Y },
-                    ProcessBtn = new List<int> { _calibrationSetup.Processing.ProcessBtn.X, _calibrationSetup.Processing.ProcessBtn.Y },
-                    StartBtn = new List<int> { _calibrationSetup.Processing.StartBtn.X, _calibrationSetup.Processing.StartBtn.Y },
-                },
-                CalibrationScreenZone = new CalibrationScreenZone
-                {
-                    Amity = new List<int> { _calibrationSetup.Area.Amity.X, _calibrationSetup.Area.Amity.Y, _calibrationSetup.Area.Amity.Width, _calibrationSetup.Area.Amity.Height },
-                    Left = new List<int> { _calibrationSetup.Area.Left.X, _calibrationSetup.Area.Left.Y, _calibrationSetup.Area.Left.Width, _calibrationSetup.Area.Left.Height },
-                    Mid = new List<int> { _calibrationSetup.Area.Mid.X, _calibrationSetup.Area.Mid.Y, _calibrationSetup.Area.Mid.Width, _calibrationSetup.Area.Mid.Height },
-                    Right = new List<int> { _calibrationSetup.Area.Right.X, _calibrationSetup.Area.Right.Y, _calibrationSetup.Area.Right.Width, _calibrationSetup.Area.Right.Height },
-                }
-            };
+            ExternalCalibrationSetup config = CalibrationAdapter.ConvertToExternalCalibrationSetup(_calibrationSetup);
             string json = JsonConvert.SerializeObject(config);
             File.WriteAllText(_fileFullPath, json);
             Hide();

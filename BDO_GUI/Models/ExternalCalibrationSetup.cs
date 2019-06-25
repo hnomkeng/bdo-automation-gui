@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using BDO_GUI.Models.Interfaces;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace BDO_GUI.Models.Interfaces
+namespace BDO_GUI.Models
 {
-    public class Calibration
+    public class ExternalCalibrationSetup : IExternalCalibrationSetup
     {
         [JsonProperty("_BDO_land_marks")]
         public CalibrationLandMark CalibrationLandMarks { get; set; }
