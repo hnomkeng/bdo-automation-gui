@@ -44,24 +44,11 @@ namespace BDO_GUI
                 SetLbxProcessingMaterials();
             };
             SetLbxProcessingMaterials();
-
-            ProcessStartInfo processStartInfo = new ProcessStartInfo()
-            {
-                FileName = "python.exe",
-                Verb = "runas",
-                WorkingDirectory = Helpers.GetWorkingDirectory(),
-                Arguments = "BDO_auto_main.py",
-            };
-
-            _pythonProcess = new Process
-            {
-                StartInfo = processStartInfo,
-                EnableRaisingEvents = true
-            };
         }
 
         private void SetLbxProcessingMaterials()
         {
+            lbxProcessingMaterials.Items.Clear();
             foreach (string mat in _config.Processing.Items)
             {
                 lbxProcessingMaterials.Items.Add(mat);
@@ -92,11 +79,11 @@ namespace BDO_GUI
             lblProcessingStatus.Text = "Off";
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
+        private void btnStartStop_Click(object sender, EventArgs e)
         {
-            if (btnStart.Text == "Stop")
+            if (_config.IsRunning)
             {
-                btnStart.Text = "Start";
+                btnStartStop.Text = "Start";
                 timerRepeat.Stop();
 
                 _timerCounter = _config.RepeatTimer;
@@ -105,12 +92,55 @@ namespace BDO_GUI
                     _pythonProcess.Kill();
                 }
 
+                _config.IsRunning = !_config.IsRunning;
                 return;
             }
 
-            SaveData();
-            btnStart.Text = "Stop";
+            btnStartStop.Text = "Stop";
             timerRepeat.Start();
+            StartPythonProcess();
+            _config.IsRunning = !_config.IsRunning;
+        }
+
+        public void StartPythonProcess()
+        {
+            if (_pythonProcess == null || _pythonProcess.HasExited)
+            {
+                ProcessStartInfo processStartInfo = new ProcessStartInfo()
+                {
+                    FileName = "python.exe",
+                    Verb = "runas",
+                    WorkingDirectory = Helpers.GetWorkingDirectory(),
+                    Arguments = "BDO_auto_main.py",
+                };
+
+                _pythonProcess = new Process
+                {
+                    StartInfo = processStartInfo,
+                    EnableRaisingEvents = true,
+                };
+            }
+
+            _timerCounter = _config.RepeatTimer;
+            _pythonProcess.Start();
+            _pythonProcess.Exited += (s, ev) =>
+            {
+                if (!timerRepeat.Enabled)
+                {
+                    btnStartStop.Text = "Start";
+                }
+
+                if (_pythonProcess.ExitCode != 0)
+                {
+                    timerRepeat.Stop();
+                    _timerCounter = 0;
+                    btnStartStop.Text = "Start";
+                    _config.IsRunning = false;
+                }
+
+                Helpers.User32.SetForegroundWindow(Handle);
+            };
+            _pythonProcess.SynchronizingObject = btnStartStop;
         }
 
         private void btnCloseApp_Click(object sender, EventArgs e)
@@ -149,12 +179,6 @@ namespace BDO_GUI
             _config.Processing.Items.Clear();
         }
 
-        private void SaveData()
-        {
-            Tuple<IExternalConfig, IExternalProcessRoutine> extConfigs = ConfigFactory.GetExternalConfigs(txtTargetApplicationName.Text, _config);
-            DataService.SaveExternalConfigs(extConfigs.Item1, extConfigs.Item2);
-        }
-
         private void timerRepeat_Tick(object sender, EventArgs e)
         {
             _timerCounter--;
@@ -170,25 +194,7 @@ namespace BDO_GUI
                 BringUpApplicationFromtray();
             }
 
-            _timerCounter = _config.RepeatTimer;
-            _pythonProcess.Start();
-            _pythonProcess.Exited += (s, ev) =>
-            {
-                if (!timerRepeat.Enabled)
-                {
-                    btnStart.Text = "Start";
-                }
-
-                if (_pythonProcess.ExitCode != 0)
-                {
-                    timerRepeat.Stop();
-                    _timerCounter = 0;
-                    btnStart.Text = "Start";
-                }
-
-                Helpers.User32.SetForegroundWindow(Handle);
-            };
-            _pythonProcess.SynchronizingObject = btnStart;
+            StartPythonProcess();
         }
 
         private void BringUpApplicationFromtray()
@@ -212,6 +218,12 @@ namespace BDO_GUI
         private void numRepeatTimer_ValueChanged(object sender, EventArgs e)
         {
             _config.RepeatTimer = (int)((NumericUpDown)sender).Value * 60;
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            Tuple<IExternalConfig, IExternalProcessRoutine> extConfigs = ConfigFactory.GetExternalConfigs(txtTargetApplicationName.Text, _config);
+            DataService.SaveExternalConfigs(extConfigs.Item1, extConfigs.Item2);
         }
     }
 }

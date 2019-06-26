@@ -13,6 +13,8 @@ namespace BDO_GUI.Models
         public string TargetApplicationPartialName { get; set; }
         public IntPtr TargetApplicationPtr { get; set; }
         public int RepeatTimer { get; set; }
+
+        public bool IsRunning { get; set; }
     }
 
     public class WorkerConfig

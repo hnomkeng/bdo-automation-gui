@@ -46,7 +46,7 @@
             this.chkProcessingVenecil = new System.Windows.Forms.CheckBox();
             this.lblProcessingStatus = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnStart = new System.Windows.Forms.Button();
+            this.btnStartStop = new System.Windows.Forms.Button();
             this.timerRepeat = new System.Windows.Forms.Timer(this.components);
             this.label3 = new System.Windows.Forms.Label();
             this.lblTimer = new System.Windows.Forms.Label();
@@ -56,6 +56,7 @@
             this.lblRepeatTimer = new System.Windows.Forms.Label();
             this.numRepeatTimer = new System.Windows.Forms.NumericUpDown();
             this.btnCloseApp = new BDO_GUI.CircularButton();
+            this.btnSave = new System.Windows.Forms.Button();
             this.grpBoxWorker.SuspendLayout();
             this.grpBoxProcessing.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -136,7 +137,7 @@
             // 
             this.btnProcessingRemoveAllMat.BackColor = System.Drawing.Color.White;
             this.btnProcessingRemoveAllMat.Font = new System.Drawing.Font("Monotype Corsiva", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnProcessingRemoveAllMat.Location = new System.Drawing.Point(217, 268);
+            this.btnProcessingRemoveAllMat.Location = new System.Drawing.Point(217, 256);
             this.btnProcessingRemoveAllMat.Name = "btnProcessingRemoveAllMat";
             this.btnProcessingRemoveAllMat.Size = new System.Drawing.Size(103, 35);
             this.btnProcessingRemoveAllMat.TabIndex = 19;
@@ -167,7 +168,7 @@
             // 
             this.btnProcessingRemoveMat.BackColor = System.Drawing.Color.White;
             this.btnProcessingRemoveMat.Font = new System.Drawing.Font("Monotype Corsiva", 14.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnProcessingRemoveMat.Location = new System.Drawing.Point(217, 137);
+            this.btnProcessingRemoveMat.Location = new System.Drawing.Point(217, 121);
             this.btnProcessingRemoveMat.Name = "btnProcessingRemoveMat";
             this.btnProcessingRemoveMat.Size = new System.Drawing.Size(103, 35);
             this.btnProcessingRemoveMat.TabIndex = 17;
@@ -254,17 +255,17 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Status :";
             // 
-            // btnStart
+            // btnStartStop
             // 
-            this.btnStart.BackColor = System.Drawing.Color.White;
-            this.btnStart.Font = new System.Drawing.Font("Modern No. 20", 14F);
-            this.btnStart.Location = new System.Drawing.Point(196, 357);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(93, 55);
-            this.btnStart.TabIndex = 5;
-            this.btnStart.Text = "Start";
-            this.btnStart.UseVisualStyleBackColor = false;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            this.btnStartStop.BackColor = System.Drawing.Color.White;
+            this.btnStartStop.Font = new System.Drawing.Font("Modern No. 20", 14F);
+            this.btnStartStop.Location = new System.Drawing.Point(196, 373);
+            this.btnStartStop.Name = "btnStartStop";
+            this.btnStartStop.Size = new System.Drawing.Size(93, 39);
+            this.btnStartStop.TabIndex = 5;
+            this.btnStartStop.Text = "Start";
+            this.btnStartStop.UseVisualStyleBackColor = false;
+            this.btnStartStop.Click += new System.EventHandler(this.btnStartStop_Click);
             // 
             // timerRepeat
             // 
@@ -298,9 +299,9 @@
             // 
             this.btnCalibration.BackColor = System.Drawing.Color.White;
             this.btnCalibration.Font = new System.Drawing.Font("Modern No. 20", 14F);
-            this.btnCalibration.Location = new System.Drawing.Point(156, 239);
+            this.btnCalibration.Location = new System.Drawing.Point(155, 187);
             this.btnCalibration.Name = "btnCalibration";
-            this.btnCalibration.Size = new System.Drawing.Size(130, 56);
+            this.btnCalibration.Size = new System.Drawing.Size(132, 53);
             this.btnCalibration.TabIndex = 13;
             this.btnCalibration.Text = "Calibration";
             this.btnCalibration.UseVisualStyleBackColor = false;
@@ -340,7 +341,8 @@
             // 
             // numRepeatTimer
             // 
-            this.numRepeatTimer.Location = new System.Drawing.Point(248, 83);
+            this.numRepeatTimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.numRepeatTimer.Location = new System.Drawing.Point(248, 80);
             this.numRepeatTimer.Maximum = new decimal(new int[] {
             120,
             0,
@@ -352,7 +354,7 @@
             0,
             0});
             this.numRepeatTimer.Name = "numRepeatTimer";
-            this.numRepeatTimer.Size = new System.Drawing.Size(39, 20);
+            this.numRepeatTimer.Size = new System.Drawing.Size(39, 23);
             this.numRepeatTimer.TabIndex = 20;
             this.numRepeatTimer.Value = new decimal(new int[] {
             15,
@@ -373,12 +375,25 @@
             this.btnCloseApp.UseVisualStyleBackColor = true;
             this.btnCloseApp.Click += new System.EventHandler(this.btnCloseApp_Click);
             // 
+            // btnSave
+            // 
+            this.btnSave.BackColor = System.Drawing.Color.White;
+            this.btnSave.Font = new System.Drawing.Font("Modern No. 20", 14F);
+            this.btnSave.Location = new System.Drawing.Point(25, 195);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(108, 36);
+            this.btnSave.TabIndex = 21;
+            this.btnSave.Text = "Save Data";
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.AliceBlue;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(844, 426);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.numRepeatTimer);
             this.Controls.Add(this.lblRepeatTimer);
             this.Controls.Add(this.lblTargetApplication);
@@ -387,7 +402,7 @@
             this.Controls.Add(this.lblTimer);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnCloseApp);
-            this.Controls.Add(this.btnStart);
+            this.Controls.Add(this.btnStartStop);
             this.Controls.Add(this.grpBoxProcessing);
             this.Controls.Add(this.grpBoxWorker);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -415,7 +430,7 @@
         private System.Windows.Forms.Button btnToggleProcessing;
         private System.Windows.Forms.Label lblProcessingStatus;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.Button btnStartStop;
         private System.Windows.Forms.Timer timerRepeat;
         private CircularButton btnCloseApp;
         private System.Windows.Forms.Label label3;
@@ -433,6 +448,7 @@
         private System.Windows.Forms.Label lblTargetApplication;
         private System.Windows.Forms.Label lblRepeatTimer;
         private System.Windows.Forms.NumericUpDown numRepeatTimer;
+        private System.Windows.Forms.Button btnSave;
     }
 }
 

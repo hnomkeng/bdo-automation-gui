@@ -11,5 +11,7 @@ namespace BDO_GUI.Models.Interfaces
         string TargetApplicationPartialName { get; set; }
         IntPtr TargetApplicationPtr { get; set; }
         int RepeatTimer { get; set; }
+
+        bool IsRunning { get; set; }
     }
 }

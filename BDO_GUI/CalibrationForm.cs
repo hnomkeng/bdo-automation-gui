@@ -117,8 +117,6 @@ namespace BDO_GUI
         {
             IExternalCalibrationSetup config = CalibrationAdapter.ConvertToExternalCalibrationSetup(_calibrationSetup);
             DataService.SaveCalibrationSetup(config);
-            Hide();
-            MainForm.Instance.Show();
         }
 
         private void btnCloseApp_Click(object sender, EventArgs e)
