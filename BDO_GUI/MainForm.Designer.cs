@@ -157,7 +157,7 @@
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
-            this.pictureBox1.Location = new System.Drawing.Point(326, 320);
+            this.pictureBox1.Location = new System.Drawing.Point(333, 320);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(109, 37);
             this.pictureBox1.TabIndex = 15;
@@ -180,7 +180,7 @@
             this.chkTrayApplication.AutoSize = true;
             this.chkTrayApplication.BackColor = System.Drawing.Color.Transparent;
             this.chkTrayApplication.Font = new System.Drawing.Font("Modern No. 20", 14F);
-            this.chkTrayApplication.Location = new System.Drawing.Point(71, 327);
+            this.chkTrayApplication.Location = new System.Drawing.Point(34, 327);
             this.chkTrayApplication.Name = "chkTrayApplication";
             this.chkTrayApplication.Size = new System.Drawing.Size(249, 25);
             this.chkTrayApplication.TabIndex = 14;

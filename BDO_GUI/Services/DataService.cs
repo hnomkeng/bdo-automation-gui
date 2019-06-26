@@ -11,7 +11,7 @@ namespace BDO_GUI.Services
     {
         public static IExternalConfig GetExternalConfig()
         {
-            string fileName = Helpers.GetWorkingDirectory() + ".config/config.json";
+            string fileName = Path.Combine(Helpers.GetWorkingDirectory(), @".config\config.json");
             using (StreamReader r = new StreamReader(fileName))
             {
                 string json = r.ReadToEnd();
@@ -21,7 +21,7 @@ namespace BDO_GUI.Services
 
         public static IExternalProcessRoutine GetExternalProcessRoutine()
         {
-            string fileName = Helpers.GetWorkingDirectory() + "BDO_process_routines/process_routine.txt";
+            string fileName = Path.Combine(Helpers.GetWorkingDirectory(), @"BDO_process_routines\process_routine.txt");
             using (StreamReader r = new StreamReader(fileName))
             {
                 string json = r.ReadToEnd();
@@ -32,15 +32,15 @@ namespace BDO_GUI.Services
         public static void SaveExternalConfigs(IExternalConfig externalConfig, IExternalProcessRoutine externalProcessRoutine)
         {
             string configJson = JsonConvert.SerializeObject(externalConfig);
-            File.WriteAllText(Helpers.GetWorkingDirectory() + ".config/config.json", configJson);
+            File.WriteAllText(Path.Combine(Helpers.GetWorkingDirectory(), @".config\config.json"), configJson);
 
             string processRoutineJson = JsonConvert.SerializeObject(externalProcessRoutine);
-            File.WriteAllText(Helpers.GetWorkingDirectory() + "BDO_process_routines/process_routine.txt", processRoutineJson);
+            File.WriteAllText(Path.Combine(Helpers.GetWorkingDirectory(), @"BDO_process_routines\process_routine.txt"), processRoutineJson);
         }
 
         public static IExternalCalibrationSetup GetExternalCalibrationSetup()
         {
-            string fileName = Helpers.GetWorkingDirectory() + ".config/calibration.json";
+            string fileName = Path.Combine(Helpers.GetWorkingDirectory(), @".config\calibration.json");
             using (StreamReader r = new StreamReader(fileName))
             {
                 string json = r.ReadToEnd();
@@ -50,14 +50,14 @@ namespace BDO_GUI.Services
 
         public static void SaveCalibrationSetup(IExternalCalibrationSetup config)
         {
-            string fileName = Helpers.GetWorkingDirectory() + ".config/calibration.json";
+            string fileName = Path.Combine(Helpers.GetWorkingDirectory(), @".config\calibration.json");
             string json = JsonConvert.SerializeObject(config);
             File.WriteAllText(fileName, json);
         }
 
         public static IList<string> GetListAvailableMaterials()
         {
-            string matImagePath = Helpers.GetWorkingDirectory() + "BDO_images/materials/";
+            string matImagePath = Path.Combine(Helpers.GetWorkingDirectory(), @"BDO_images\materials");
             if (!Directory.Exists(matImagePath))
                 return null;
 

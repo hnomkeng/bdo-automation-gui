@@ -32,13 +32,13 @@ namespace BDO_GUI
 
         public static  string GetWorkingDirectory()
         {
-            string workingDirectory = "C:/Users/Duc Truong/Downloads/bdo/";
+            string workingDirectory = @"C:\Users\Duc Truong\Downloads\bdo\";
             if (Directory.Exists(workingDirectory))
             {
                 return workingDirectory;
             }
 
-            return Directory.GetCurrentDirectory();
+            return AppDomain.CurrentDomain.BaseDirectory;
         }
     }
 
@@ -46,7 +46,7 @@ namespace BDO_GUI
     {
         public static string GetDisplayName(this string input)
         {
-            input = input.Split('/').Last().Replace("_highlighted", string.Empty).Replace(".png", string.Empty).Replace("_", " ");
+            input = Path.GetFileName(input).Replace("_highlighted", string.Empty).Replace(".png", string.Empty).Replace("_", " ");
             return char.ToUpper(input[0]) + input.Substring(1);
         }
     }
