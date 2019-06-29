@@ -45,7 +45,6 @@ namespace BDO_GUI.Factories
             {
                 string name = config.Processing.Items[a].ToString();
                 name = name.Replace(" ", "_").ToLower();
-                name += "_highlighted";
                 list.Add(new List<string> { name });
             }
             externalProcessRoutine.Items = list;

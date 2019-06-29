@@ -56,7 +56,6 @@
             this.lblRepeatTimer = new System.Windows.Forms.Label();
             this.numRepeatTimer = new System.Windows.Forms.NumericUpDown();
             this.btnCloseApp = new BDO_GUI.CircularButton();
-            this.btnSave = new System.Windows.Forms.Button();
             this.grpBoxWorker.SuspendLayout();
             this.grpBoxProcessing.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -291,9 +290,8 @@
             this.lblTimer.Font = new System.Drawing.Font("Modern No. 20", 14F);
             this.lblTimer.Location = new System.Drawing.Point(8, 382);
             this.lblTimer.Name = "lblTimer";
-            this.lblTimer.Size = new System.Drawing.Size(158, 21);
+            this.lblTimer.Size = new System.Drawing.Size(0, 21);
             this.lblTimer.TabIndex = 10;
-            this.lblTimer.Text = "Process Repeat In :";
             // 
             // btnCalibration
             // 
@@ -335,29 +333,29 @@
             this.lblRepeatTimer.Font = new System.Drawing.Font("Modern No. 20", 12F);
             this.lblRepeatTimer.Location = new System.Drawing.Point(15, 83);
             this.lblRepeatTimer.Name = "lblRepeatTimer";
-            this.lblRepeatTimer.Size = new System.Drawing.Size(227, 18);
+            this.lblRepeatTimer.Size = new System.Drawing.Size(191, 18);
             this.lblRepeatTimer.TabIndex = 19;
-            this.lblRepeatTimer.Text = "Repeat Task Timer (in minutes) :";
+            this.lblRepeatTimer.Text = "Repeat Timer (in minutes) :";
             // 
             // numRepeatTimer
             // 
             this.numRepeatTimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.numRepeatTimer.Location = new System.Drawing.Point(248, 80);
+            this.numRepeatTimer.Location = new System.Drawing.Point(229, 78);
             this.numRepeatTimer.Maximum = new decimal(new int[] {
             120,
             0,
             0,
             0});
             this.numRepeatTimer.Minimum = new decimal(new int[] {
-            2,
+            1,
             0,
             0,
             0});
             this.numRepeatTimer.Name = "numRepeatTimer";
-            this.numRepeatTimer.Size = new System.Drawing.Size(39, 23);
+            this.numRepeatTimer.Size = new System.Drawing.Size(60, 23);
             this.numRepeatTimer.TabIndex = 20;
             this.numRepeatTimer.Value = new decimal(new int[] {
-            15,
+            5,
             0,
             0,
             0});
@@ -375,25 +373,12 @@
             this.btnCloseApp.UseVisualStyleBackColor = true;
             this.btnCloseApp.Click += new System.EventHandler(this.btnCloseApp_Click);
             // 
-            // btnSave
-            // 
-            this.btnSave.BackColor = System.Drawing.Color.White;
-            this.btnSave.Font = new System.Drawing.Font("Modern No. 20", 14F);
-            this.btnSave.Location = new System.Drawing.Point(25, 195);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(108, 36);
-            this.btnSave.TabIndex = 21;
-            this.btnSave.Text = "Save Data";
-            this.btnSave.UseVisualStyleBackColor = false;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.AliceBlue;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(844, 426);
-            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.numRepeatTimer);
             this.Controls.Add(this.lblRepeatTimer);
             this.Controls.Add(this.lblTargetApplication);
@@ -406,6 +391,7 @@
             this.Controls.Add(this.grpBoxProcessing);
             this.Controls.Add(this.grpBoxWorker);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BDO Configuration";
@@ -448,7 +434,6 @@
         private System.Windows.Forms.Label lblTargetApplication;
         private System.Windows.Forms.Label lblRepeatTimer;
         private System.Windows.Forms.NumericUpDown numRepeatTimer;
-        private System.Windows.Forms.Button btnSave;
     }
 }
 

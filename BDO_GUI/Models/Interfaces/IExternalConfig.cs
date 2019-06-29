@@ -6,6 +6,5 @@
         bool UseWorker { get; set; }
         bool UseProcessing { get; set; }
         bool UseTray { get; set; }
-        string TaskFile { get; set; }
     }
 }

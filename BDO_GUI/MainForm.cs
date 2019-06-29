@@ -4,6 +4,7 @@ using BDO_GUI.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace BDO_GUI
@@ -32,11 +33,25 @@ namespace BDO_GUI
             chkTrayApplication.Checked = _config.Tray.IsActive;
             chkTrayApplication.CheckState = _config.Tray.IsActive ? CheckState.Checked : CheckState.Unchecked;
 
-            // Load List Materials
-            IList<string> listAvailableMats = DataService.GetListAvailableMaterials();
-            foreach (string mat in listAvailableMats)
+            ProcessStartInfo processStartInfo = new ProcessStartInfo()
             {
-                lbxMaterials.Items.Add(mat);
+                FileName = "python.exe",
+                Verb = "runas",
+                WorkingDirectory = Helpers.GetWorkingDirectory(),
+                Arguments = "BDO_auto_main.py",
+            };
+
+            _pythonProcess = new Process
+            {
+                StartInfo = processStartInfo,
+                EnableRaisingEvents = true,
+            };
+
+            // Load List Materials
+            IList<IList<string>> listAvailableMats = processRoutine.Processable;
+            foreach (IList<string> mat in listAvailableMats)
+            {
+                lbxMaterials.Items.Add(mat.First().GetDisplayName());
             }
 
             _config.Processing.Items.CollectionChanged += (s, e) =>
@@ -81,20 +96,25 @@ namespace BDO_GUI
 
         private void btnStartStop_Click(object sender, EventArgs e)
         {
+            // Stop process when running
             if (_config.IsRunning)
             {
                 btnStartStop.Text = "Start";
                 timerRepeat.Stop();
 
+                // buffer
                 _timerCounter = _config.RepeatTimer;
                 if (!_pythonProcess.HasExited)
                 {
                     _pythonProcess.Kill();
                 }
 
-                _config.IsRunning = !_config.IsRunning;
+                _config.IsRunning = false;
                 return;
             }
+
+            Tuple<IExternalConfig, IExternalProcessRoutine> extConfigs = ConfigFactory.GetExternalConfigs(txtTargetApplicationName.Text, _config);
+            DataService.SaveExternalConfigs(extConfigs.Item1, extConfigs.Item2);
 
             btnStartStop.Text = "Stop";
             timerRepeat.Start();
@@ -102,45 +122,48 @@ namespace BDO_GUI
             _config.IsRunning = !_config.IsRunning;
         }
 
-        public void StartPythonProcess()
+        private void timerRepeat_Tick(object sender, EventArgs e)
         {
-            if (_pythonProcess == null || _pythonProcess.HasExited)
-            {
-                ProcessStartInfo processStartInfo = new ProcessStartInfo()
-                {
-                    FileName = "python.exe",
-                    Verb = "runas",
-                    WorkingDirectory = Helpers.GetWorkingDirectory(),
-                    Arguments = "BDO_auto_main.py",
-                };
+            _timerCounter--;
+            lblTimer.Text = "Counter: " + _timerCounter;
 
-                _pythonProcess = new Process
-                {
-                    StartInfo = processStartInfo,
-                    EnableRaisingEvents = true,
-                };
+            if (_timerCounter > 0)
+            {
+                return;
             }
 
+            if (_config.Tray.IsActive && Helpers.FindApplication(txtTargetApplicationName.Text).Item1 == IntPtr.Zero)
+            {
+                BringUpApplicationFromtray();
+            }
+
+            StartPythonProcess();
+        }
+
+        public void StartPythonProcess()
+        {
             _timerCounter = _config.RepeatTimer;
             _pythonProcess.Start();
             _pythonProcess.Exited += (s, ev) =>
             {
-                if (!timerRepeat.Enabled)
-                {
-                    btnStartStop.Text = "Start";
-                }
-
-                if (_pythonProcess.ExitCode != 0)
-                {
-                    timerRepeat.Stop();
-                    _timerCounter = 0;
-                    btnStartStop.Text = "Start";
-                    _config.IsRunning = false;
-                }
-
                 Helpers.User32.SetForegroundWindow(Handle);
+                if (_pythonProcess.ExitCode == 0)
+                {
+                    return;
+                }
+
+                // Error
+                timerRepeat.Stop();
+                btnStartStop.Text = "Start";
+                _config.IsRunning = false;
             };
             _pythonProcess.SynchronizingObject = btnStartStop;
+        }
+
+        private void BringUpApplicationFromtray()
+        {
+            Func<string, bool> myFunc = name => name.StartsWith(txtTargetApplicationName.Text);
+            AutomationElementHelpers.InvokeButtonByName(myFunc);
         }
 
         private void btnCloseApp_Click(object sender, EventArgs e)
@@ -179,30 +202,6 @@ namespace BDO_GUI
             _config.Processing.Items.Clear();
         }
 
-        private void timerRepeat_Tick(object sender, EventArgs e)
-        {
-            _timerCounter--;
-            lblTimer.Text = "Counter: " + _timerCounter;
-
-            if (_timerCounter > 0)
-            {
-                return;
-            }
-
-            if (_config.Tray.IsActive && Helpers.FindApplication(txtTargetApplicationName.Text).Item1 == IntPtr.Zero)
-            {
-                BringUpApplicationFromtray();
-            }
-
-            StartPythonProcess();
-        }
-
-        private void BringUpApplicationFromtray()
-        {
-            Func<string, bool> myFunc = name => name.StartsWith(txtTargetApplicationName.Text);
-            AutomationElementHelpers.InvokeButtonByName(myFunc);
-        }
-
         private void btnCalibration_Click(object sender, EventArgs e)
         {
             Hide();
@@ -218,12 +217,6 @@ namespace BDO_GUI
         private void numRepeatTimer_ValueChanged(object sender, EventArgs e)
         {
             _config.RepeatTimer = (int)((NumericUpDown)sender).Value * 60;
-        }
-
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            Tuple<IExternalConfig, IExternalProcessRoutine> extConfigs = ConfigFactory.GetExternalConfigs(txtTargetApplicationName.Text, _config);
-            DataService.SaveExternalConfigs(extConfigs.Item1, extConfigs.Item2);
         }
     }
 }

@@ -9,6 +9,9 @@ namespace BDO_GUI.Models
         [JsonProperty("Venecil")]
         public bool UseVenecil { get; set; }
 
+        [JsonProperty("processable")]
+        public IList<IList<string>> Processable { get; set; }
+
         [JsonProperty("items2process")]
         public IList<IList<string>> Items { get; set; }
     }

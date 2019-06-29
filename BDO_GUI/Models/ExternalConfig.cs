@@ -16,9 +16,6 @@ namespace BDO_GUI.Models
 
         [JsonProperty("HideApp")]
         public bool UseTray { get; set; }
-
-        [JsonProperty("TaskFile")]
-        public string TaskFile { get; set; }
     }
 
     public class ExternalConfigSetting
