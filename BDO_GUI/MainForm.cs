@@ -4,7 +4,6 @@ using BDO_GUI.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace BDO_GUI
@@ -49,9 +48,12 @@ namespace BDO_GUI
 
             // Load List Materials
             IList<IList<string>> listAvailableMats = processRoutine.Processable;
-            foreach (IList<string> mat in listAvailableMats)
+            foreach (IList<string> mats in listAvailableMats)
             {
-                lbxMaterials.Items.Add(mat.First().GetDisplayName());
+                foreach (string mat in mats)
+                {
+                    lbxMaterials.Items.Add(mat.GetDisplayName());
+                }
             }
 
             _config.Processing.Items.CollectionChanged += (s, e) =>
