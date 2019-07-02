@@ -35,6 +35,7 @@
             this.lblWorkerStatus = new System.Windows.Forms.Label();
             this.grpBoxWorker = new System.Windows.Forms.GroupBox();
             this.grpBoxProcessing = new System.Windows.Forms.GroupBox();
+            this.chkProcessingContainer = new System.Windows.Forms.CheckBox();
             this.btnProcessingRemoveAllMat = new System.Windows.Forms.Button();
             this.lbxProcessingMaterials = new System.Windows.Forms.ListBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -56,6 +57,7 @@
             this.lblRepeatTimer = new System.Windows.Forms.Label();
             this.numRepeatTimer = new System.Windows.Forms.NumericUpDown();
             this.btnCloseApp = new BDO_GUI.CircularButton();
+            this.btnSave = new System.Windows.Forms.Button();
             this.grpBoxWorker.SuspendLayout();
             this.grpBoxProcessing.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -113,6 +115,7 @@
             // 
             this.grpBoxProcessing.BackColor = System.Drawing.Color.White;
             this.grpBoxProcessing.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("grpBoxProcessing.BackgroundImage")));
+            this.grpBoxProcessing.Controls.Add(this.chkProcessingContainer);
             this.grpBoxProcessing.Controls.Add(this.btnProcessingRemoveAllMat);
             this.grpBoxProcessing.Controls.Add(this.lbxProcessingMaterials);
             this.grpBoxProcessing.Controls.Add(this.pictureBox1);
@@ -131,6 +134,19 @@
             this.grpBoxProcessing.TabIndex = 4;
             this.grpBoxProcessing.TabStop = false;
             this.grpBoxProcessing.Text = "Processing";
+            // 
+            // chkProcessingContainer
+            // 
+            this.chkProcessingContainer.AutoSize = true;
+            this.chkProcessingContainer.BackColor = System.Drawing.Color.Transparent;
+            this.chkProcessingContainer.Font = new System.Drawing.Font("Modern No. 20", 12F);
+            this.chkProcessingContainer.Location = new System.Drawing.Point(364, 43);
+            this.chkProcessingContainer.Name = "chkProcessingContainer";
+            this.chkProcessingContainer.Size = new System.Drawing.Size(118, 22);
+            this.chkProcessingContainer.TabIndex = 20;
+            this.chkProcessingContainer.Text = "Use Container";
+            this.chkProcessingContainer.UseVisualStyleBackColor = false;
+            this.chkProcessingContainer.CheckedChanged += new System.EventHandler(this.chkProcessingContainer_CheckedChanged);
             // 
             // btnProcessingRemoveAllMat
             // 
@@ -225,7 +241,7 @@
             this.chkProcessingVenecil.AutoSize = true;
             this.chkProcessingVenecil.BackColor = System.Drawing.Color.Transparent;
             this.chkProcessingVenecil.Font = new System.Drawing.Font("Modern No. 20", 12F);
-            this.chkProcessingVenecil.Location = new System.Drawing.Point(351, 29);
+            this.chkProcessingVenecil.Location = new System.Drawing.Point(364, 15);
             this.chkProcessingVenecil.Name = "chkProcessingVenecil";
             this.chkProcessingVenecil.Size = new System.Drawing.Size(161, 22);
             this.chkProcessingVenecil.TabIndex = 14;
@@ -373,12 +389,25 @@
             this.btnCloseApp.UseVisualStyleBackColor = true;
             this.btnCloseApp.Click += new System.EventHandler(this.btnCloseApp_Click);
             // 
+            // btnSave
+            // 
+            this.btnSave.BackColor = System.Drawing.Color.White;
+            this.btnSave.Font = new System.Drawing.Font("Modern No. 20", 14F);
+            this.btnSave.Location = new System.Drawing.Point(12, 373);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(93, 39);
+            this.btnSave.TabIndex = 21;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.AliceBlue;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(844, 426);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.numRepeatTimer);
             this.Controls.Add(this.lblRepeatTimer);
             this.Controls.Add(this.lblTargetApplication);
@@ -434,6 +463,8 @@
         private System.Windows.Forms.Label lblTargetApplication;
         private System.Windows.Forms.Label lblRepeatTimer;
         private System.Windows.Forms.NumericUpDown numRepeatTimer;
+        private System.Windows.Forms.CheckBox chkProcessingContainer;
+        private System.Windows.Forms.Button btnSave;
     }
 }
 

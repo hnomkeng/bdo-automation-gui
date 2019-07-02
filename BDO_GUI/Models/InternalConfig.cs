@@ -26,6 +26,7 @@ namespace BDO_GUI.Models
     {
         public bool IsActive { get; set; }
         public bool UseVenecil { get; set; }
+        public bool UseContainer { get; set; }
         public ObservableCollection<string> Items { get; set; }
     }
 

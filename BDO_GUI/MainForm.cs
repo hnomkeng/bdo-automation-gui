@@ -96,6 +96,12 @@ namespace BDO_GUI
             lblProcessingStatus.Text = "Off";
         }
 
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            Tuple<IExternalConfig, IExternalProcessRoutine> extConfigs = ConfigFactory.GetExternalConfigs(txtTargetApplicationName.Text, _config);
+            DataService.SaveExternalConfigs(extConfigs.Item1, extConfigs.Item2);
+        }
+
         private void btnStartStop_Click(object sender, EventArgs e)
         {
             // Stop process when running
@@ -114,9 +120,6 @@ namespace BDO_GUI
                 _config.IsRunning = false;
                 return;
             }
-
-            Tuple<IExternalConfig, IExternalProcessRoutine> extConfigs = ConfigFactory.GetExternalConfigs(txtTargetApplicationName.Text, _config);
-            DataService.SaveExternalConfigs(extConfigs.Item1, extConfigs.Item2);
 
             btnStartStop.Text = "Stop";
             timerRepeat.Start();
@@ -176,6 +179,11 @@ namespace BDO_GUI
         private void chkProcessingVenecil_CheckedChanged(object sender, EventArgs e)
         {
             _config.Processing.UseVenecil = chkProcessingVenecil.Checked;
+        }
+
+        private void chkProcessingContainer_CheckedChanged(object sender, EventArgs e)
+        {
+            _config.Processing.UseContainer = chkProcessingContainer.Checked;
         }
 
         private void btnProcessingAddMat_Click(object sender, EventArgs e)

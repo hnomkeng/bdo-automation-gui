@@ -48,6 +48,8 @@ namespace BDO_GUI.Factories
                 list.Add(new List<string> { name });
             }
             externalProcessRoutine.Items = list;
+            externalProcessRoutine.UseVenecil = config.Processing.UseVenecil;
+            externalProcessRoutine.UseContainer = config.Processing.UseContainer;
             return new Tuple<IExternalConfig, IExternalProcessRoutine>(externalConfig, externalProcessRoutine);
         }
     }
