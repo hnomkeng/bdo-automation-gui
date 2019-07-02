@@ -73,9 +73,13 @@ namespace BDO_GUI
         }
 
         #region Overrides
-        protected override void OnMouseUp(MouseEventArgs e)
+        protected override void OnMouseDown(MouseEventArgs e)
         {
             SelectedPoint = e.Location;
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
             CloseForms();
             OnTargetSelected(new EventArgs());
         }

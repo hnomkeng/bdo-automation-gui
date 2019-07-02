@@ -62,7 +62,8 @@ namespace BDO_GUI.Adapters
                     Left = new List<int> { internalSetup.Area.Left.X, internalSetup.Area.Left.Y, internalSetup.Area.Left.Width, internalSetup.Area.Left.Height },
                     Mid = new List<int> { internalSetup.Area.Mid.X, internalSetup.Area.Mid.Y, internalSetup.Area.Mid.Width, internalSetup.Area.Mid.Height },
                     Right = new List<int> { internalSetup.Area.Right.X, internalSetup.Area.Right.Y, internalSetup.Area.Right.Width, internalSetup.Area.Right.Height },
-                }
+                },
+                DegreeToWidth = 6
             };
         }
     }

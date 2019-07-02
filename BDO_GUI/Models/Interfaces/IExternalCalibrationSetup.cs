@@ -4,5 +4,6 @@
     {
         CalibrationLandMark CalibrationLandMarks { get; set; }
         CalibrationScreenZone CalibrationScreenZone { get; set; }
+        int DegreeToWidth { get; set; }
     }
 }

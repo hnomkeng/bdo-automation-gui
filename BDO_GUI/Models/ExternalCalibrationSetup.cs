@@ -11,6 +11,9 @@ namespace BDO_GUI.Models
 
         [JsonProperty("_BDO_screen_zone")]
         public CalibrationScreenZone CalibrationScreenZone { get; set; }
+
+        [JsonProperty("_BDO_degree_to_width")]
+        public int DegreeToWidth { get; set; }
     }
 
     public class CalibrationLandMark
