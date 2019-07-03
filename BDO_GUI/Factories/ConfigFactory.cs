@@ -14,9 +14,12 @@ namespace BDO_GUI.Factories
         {
             Tuple<IntPtr, string> targetApplication = Helpers.FindApplication(applicationName);
             ObservableCollection<string> listMats = new ObservableCollection<string>();
-            foreach (List<string> mat in externalProcessRoutine.Items)
+            if (externalProcessRoutine != null && externalProcessRoutine.Items != null && externalProcessRoutine.Items.Count > 0)
             {
-                listMats.Add(mat.FirstOrDefault().GetDisplayName());
+                foreach (List<string> mat in externalProcessRoutine.Items)
+                {
+                    listMats.Add(mat.FirstOrDefault().GetDisplayName());
+                }
             }
 
             IInternalConfig config = new InternalConfig
@@ -24,9 +27,9 @@ namespace BDO_GUI.Factories
                 TargetApplicationPtr = targetApplication.Item1,
                 TargetApplicationPartialName = applicationName,
                 RepeatTimer = numRepeatTimerInMinutes * 60,
-                Worker = new WorkerConfig { IsActive = externalConfig.UseProcessing },
-                Processing = new ProcessingConfig { IsActive = externalConfig.UseProcessing, UseVenecil = externalProcessRoutine.UseVenecil, Items = listMats },
-                Tray = new TrayConfig { IsActive = externalConfig.UseTray }
+                Worker = new WorkerConfig { IsActive = externalConfig?.UseWorker ?? false },
+                Processing = new ProcessingConfig { IsActive = externalConfig?.UseProcessing ?? false, UseVenecil = externalProcessRoutine?.UseVenecil ?? false, Items = listMats },
+                Tray = new TrayConfig { IsActive = externalConfig?.UseTray ?? false }
             };
             return config;
         }

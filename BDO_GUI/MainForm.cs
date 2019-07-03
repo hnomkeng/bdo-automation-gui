@@ -31,6 +31,8 @@ namespace BDO_GUI
             chkProcessingVenecil.CheckState = _config.Processing.UseVenecil ? CheckState.Checked : CheckState.Unchecked;
             chkTrayApplication.Checked = _config.Tray.IsActive;
             chkTrayApplication.CheckState = _config.Tray.IsActive ? CheckState.Checked : CheckState.Unchecked;
+            chkProcessingContainer.Checked = _config.Processing.UseContainer;
+            chkProcessingContainer.CheckState = _config.Processing.UseContainer ? CheckState.Checked : CheckState.Unchecked;
 
             ProcessStartInfo processStartInfo = new ProcessStartInfo()
             {
