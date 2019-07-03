@@ -10,20 +10,34 @@ namespace BDO_GUI.Services
         public static IExternalConfig GetExternalConfig()
         {
             string fileName = Path.Combine(Helpers.GetWorkingDirectory(), @".config\config.json");
-            using (StreamReader r = new StreamReader(fileName))
+            try
             {
-                string json = r.ReadToEnd();
-                return JsonConvert.DeserializeObject<ExternalConfig>(json);
+                using (StreamReader r = new StreamReader(fileName))
+                {
+                    string json = r.ReadToEnd();
+                    return JsonConvert.DeserializeObject<ExternalConfig>(json);
+                }
+            }
+            catch
+            {
+                return new ExternalConfig();
             }
         }
 
         public static IExternalProcessRoutine GetExternalProcessRoutine()
         {
             string fileName = Path.Combine(Helpers.GetWorkingDirectory(), @".config\process_routine.json");
-            using (StreamReader r = new StreamReader(fileName))
+            try
             {
-                string json = r.ReadToEnd();
-                return JsonConvert.DeserializeObject<ExternalProcessRoutine>(json);
+                using (StreamReader r = new StreamReader(fileName))
+                {
+                    string json = r.ReadToEnd();
+                    return JsonConvert.DeserializeObject<ExternalProcessRoutine>(json);
+                }
+            }
+            catch
+            {
+                return new ExternalProcessRoutine();
             }
         }
 
@@ -39,10 +53,17 @@ namespace BDO_GUI.Services
         public static IExternalCalibrationSetup GetExternalCalibrationSetup()
         {
             string fileName = Path.Combine(Helpers.GetWorkingDirectory(), @".config\calibration.json");
-            using (StreamReader r = new StreamReader(fileName))
+            try
             {
-                string json = r.ReadToEnd();
-                return JsonConvert.DeserializeObject<ExternalCalibrationSetup>(json);
+                using (StreamReader r = new StreamReader(fileName))
+                {
+                    string json = r.ReadToEnd();
+                    return JsonConvert.DeserializeObject<ExternalCalibrationSetup>(json);
+                }
+            }
+            catch
+            {
+                return new ExternalCalibrationSetup();
             }
         }
 

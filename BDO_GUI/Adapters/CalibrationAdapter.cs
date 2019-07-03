@@ -9,10 +9,10 @@ namespace BDO_GUI.Adapters
     {
         public static InternalCalibrationSetup ConvertToInternalCalibrationSetup(IExternalCalibrationSetup externalSetup)
         {
-            if (externalSetup == null || externalSetup.CalibrationLandMarks == null || externalSetup.CalibrationScreenZone == null)
-                return null;
-
             InternalCalibrationSetup internalSetup = new InternalCalibrationSetup();
+
+            if (externalSetup == null || externalSetup.CalibrationLandMarks == null || externalSetup.CalibrationScreenZone == null)
+                return internalSetup;
 
             internalSetup.Area.Amity = new Rectangle(externalSetup.CalibrationScreenZone.Amity?[0] ?? 0, externalSetup.CalibrationScreenZone.Amity?[1] ?? 0, externalSetup.CalibrationScreenZone.Amity?[2] ?? 0, externalSetup.CalibrationScreenZone.Amity?[3] ?? 0);
             internalSetup.Area.Left = new Rectangle(externalSetup.CalibrationScreenZone.Left?[0] ?? 0, externalSetup.CalibrationScreenZone.Left?[1] ?? 0, externalSetup.CalibrationScreenZone.Left?[2] ?? 0, externalSetup.CalibrationScreenZone.Left?[3] ?? 0);

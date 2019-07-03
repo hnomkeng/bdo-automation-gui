@@ -304,7 +304,7 @@
             this.lblTimer.AutoSize = true;
             this.lblTimer.BackColor = System.Drawing.Color.Transparent;
             this.lblTimer.Font = new System.Drawing.Font("Modern No. 20", 14F);
-            this.lblTimer.Location = new System.Drawing.Point(8, 382);
+            this.lblTimer.Location = new System.Drawing.Point(30, 349);
             this.lblTimer.Name = "lblTimer";
             this.lblTimer.Size = new System.Drawing.Size(0, 21);
             this.lblTimer.TabIndex = 10;
