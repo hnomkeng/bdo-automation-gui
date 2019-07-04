@@ -28,7 +28,7 @@ namespace BDO_GUI.Factories
                 TargetApplicationPartialName = applicationName,
                 RepeatTimer = numRepeatTimerInMinutes * 60,
                 Worker = new WorkerConfig { IsActive = externalConfig?.UseWorker ?? false },
-                Processing = new ProcessingConfig { IsActive = externalConfig?.UseProcessing ?? false, UseVenecil = externalProcessRoutine?.UseVenecil ?? false, Items = listMats },
+                Processing = new ProcessingConfig { IsActive = externalConfig?.UseProcessing ?? false, UseVenecil = externalProcessRoutine?.UseVenecil ?? false, UseContainer = externalProcessRoutine?.UseContainer ?? false, Items = listMats },
                 Tray = new TrayConfig { IsActive = externalConfig?.UseTray ?? false }
             };
             return config;
